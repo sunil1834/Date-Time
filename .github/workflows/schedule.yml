@@ -2,10 +2,11 @@ name: Run Jupyter Notebook
 
 on:
   workflow_dispatch:
-  
+
+  push:
+
   schedule:
     - cron: '*/5 * * * *'
-
 jobs:
   execute-notebook:
     runs-on: ubuntu-latest
