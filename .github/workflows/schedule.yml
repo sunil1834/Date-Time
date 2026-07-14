@@ -1,15 +1,31 @@
-name: Test Schedule
+name: Run Jupyter Notebook
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+  - cron: '30 * * * *'
+permissions:
+  contents: write
 
 jobs:
-  test:
+  execute-notebook:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
     steps:
-      - name: Print Time
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
         run: |
-          echo "Workflow started"
-          date
+          python -m pip install --upgrade pip
+          pip install notebook nbconvert ipykernel
+
+      - name: Execute Notebook
+        run: |
+          jupyter nbconvert --to notebook --execute Date_Time.ipynb --output Date_Time.ipynb --ExecutePreprocessor.timeout=1200
