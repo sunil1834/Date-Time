@@ -3,20 +3,19 @@ name: Run Jupyter Notebook
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'   
+    - cron: '*/5 * * * *'   # every 5 minutes (UTC)
+
 permissions:
   contents: write
 
 jobs:
   execute-notebook:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -30,13 +29,9 @@ jobs:
 
       - name: Execute Notebook
         run: |
-          jupyter nbconvert \
-            --to notebook \
-            --execute Date_Time.ipynb \
-            --output Date_Time.ipynb \
-            --ExecutePreprocessor.timeout=1800
+          jupyter nbconvert --to notebook --execute Date_Time.ipynb --output Date_Time.ipynb --ExecutePreprocessor.timeout=1200
 
-      - name: Commit and push changes (if any)
+      - name: Commit & Push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
