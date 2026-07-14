@@ -3,8 +3,7 @@ name: Run Jupyter Notebook
 on:
   workflow_dispatch:
   schedule:
-    - cron: '37 * * * *'   # every 5 minutes (UTC)
-
+  - cron: '*/5 * * * *'
 permissions:
   contents: write
 
@@ -35,6 +34,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Date_Time.ipynb
+          git add .
           git diff --staged --quiet || git commit -m "chore: auto-run notebook"
           git push
