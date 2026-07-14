@@ -3,7 +3,7 @@ name: Run Jupyter Notebook
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'   # every 5 minutes (UTC)
+    - cron: '37 * * * *'   # every 5 minutes (UTC)
 
 permissions:
   contents: write
